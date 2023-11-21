@@ -1,0 +1,90 @@
+[
+	{
+		"title": "ARROZ",
+		"description": "Arroz paquete 1 kilo",
+		"price": 100,
+		"thumbnail": "001.jpg",
+		"code": "arroz123",
+		"stock": 35
+	},
+	{
+		"title": "LECHE",
+		"description": "Leche natural botella 1 litro",
+		"price": 200,
+		"thumbnail": "002.jpg",
+		"code": "leche123",
+		"stock": 25
+	},
+	{
+		"title": "HARINA",
+		"description": "Harina de trigo envase 1 kilo",
+		"price": 300,
+		"thumbnail": "003.jpg",
+		"code": "harina123",
+		"stock": 45
+	},
+	{
+		"title": "CEREAL",
+		"description": "Cereal avena caja 400 gramos",
+		"price": 400,
+		"thumbnail": "004.jpg",
+		"code": "cereal123",
+		"stock": 15
+	},
+	{
+		"title": "CARNE",
+		"description": "Lomo porcionado 1,5 kilos",
+		"price": 500,
+		"thumbnail": "005.jpg",
+		"code": "carne123",
+		"stock": 55
+	},
+	{
+		"title": "PAN",
+		"description": "Pan centeno 1 kilo",
+		"price": 250,
+		"thumbnail": "008.jpg",
+		"code": "pan123",
+		"stock": 85
+	},
+	{
+		"title": "VINO",
+		"description": "Cabernet Souvignon",
+		"price": 1500,
+		"thumbnail": "009.jpg",
+		"code": "vino123",
+		"stock": 12
+	},
+	{
+		"title": "GALLETA",
+		"description": "Paquete chocolate 125gr.",
+		"price": 180,
+		"thumbnail": "0010.jpg",
+		"code": "galleta123",
+		"stock": 72
+	},
+	{
+		"title": "JABON",
+		"description": "Jabon barra 90 gr.",
+		"price": 110,
+		"thumbnail": "011.jpg",
+		"code": "jabon123",
+		"stock": 23
+	},
+	{
+		"title": "PASTA",
+		"description": "Pasta fresca 500 gr.",
+		"price": 210,
+		"thumbnail": "012.jpg",
+		"code": "pasta123",
+		"stock": 31
+	},
+	{
+		"title": "HELADO",
+		"description": "Helado sabores 1 litro",
+		"price": 390,
+		"thumbnail": "013.jpg",
+		"code": "helado123",
+		"stock": 18
+	}
+]
