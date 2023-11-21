@@ -4,7 +4,10 @@ const router = Router();
 
 let products = [];
 
-const saveProductsToFile = () => {};
+const saveProductsToFile = () => {
+  // Aquí podrías implementar la lógica para guardar los productos en un archivo o base de datos
+  // Por simplicidad, esta función está vacía en este ejemplo.
+};
 
 router.get("/home", (req, res) => {
   res.json({
@@ -31,8 +34,10 @@ router.get("/:id", (req, res) => {
   });
 });
 
+
+
 router.post("/", (req, res) => {
-  const { title, description, price, thumbnail, code, stock } = req.body;
+  const { title, description, price, thumbnail, code, stock, status=true } = req.body;
   const newProduct = {
     id: products.length + 1,
     title,
@@ -41,6 +46,7 @@ router.post("/", (req, res) => {
     thumbnail,
     code,
     stock,
+    status,
   };
   products.push(newProduct);
   saveProductsToFile();
@@ -52,7 +58,7 @@ router.post("/", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const { id } = req.params;
-  const { title, description, price, thumbnail, code, stock } = req.body;
+  const { title, description, price, thumbnail, code, stock, status=true} = req.body;
   const index = products.findIndex((product) => product.id === Number(id));
 
   if (index === -1) {
@@ -69,6 +75,7 @@ router.put("/:id", (req, res) => {
     thumbnail: thumbnail || products[index].thumbnail,
     code: code || products[index].code,
     stock: stock || products[index].stock,
+    status: stock || products[index].stock,
   };
 
   saveProductsToFile();

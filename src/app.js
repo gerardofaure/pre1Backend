@@ -1,3 +1,4 @@
+// PRE ENTREGA 1
 import express from "express";
 import productRouter from "./routes/products.router.js";
 import cartRouter from "./routes/cart.router.js";
@@ -13,14 +14,14 @@ app.use(express.urlencoded({ extended: true }));
 const cart = [];
 
 // Middleware para asignar el carrito a req.cart
-app.use("/api/cart", (req, res, next) => {
+app.use("/api/carts", (req, res, next) => {
   req.cart = cart;
   next();
 });
 
 // Rutas
 app.use("/api/products", productRouter);
-app.use("/api/cart", cartRouter);
+app.use("/api/carts", cartRouter);
 
 // Middleware de manejo de errores
 app.use((err, req, res, next) => {

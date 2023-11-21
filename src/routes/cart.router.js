@@ -1,99 +1,106 @@
-
 import { Router } from "express";
-import { products } from "./products.router.js";
+import { products, saveProductsToFile } from "./products.router.js";
+
 const router = Router();
 
-// Carrito de compras (puede almacenarse en memoria o en una base de datos)
-const cart = [];
-const productscart = [];
+router.get("/home", (req, res) => {
+  res.json({
+    mensaje: "Bienvenidos a tu carrito",
+  });
+});
 
-// // Endpoint para obtener el contenido del carrito
-// router.get("/", (req, res) => {
-//   res.json({
-//     cart,
-//   });
-// });
+router.get("/", (req, res) => {
+  res.json({
+    products: req.cart,
+  });
+});
 
-// Endpoint para agregar un producto al carrito
-router.post("/add", (req, res) => {
-  const { id, quantity } = req.body;
-
-  // Buscar el producto en la lista de productos
-  const product = products.find((item) => item.id === id);
-
-  if (!product) {
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+  const producto = req.cart.find((item) => item.id === Number(id));
+  if (!producto) {
     return res.json({
       error: "Producto no encontrado",
     });
   }
-
-  // Verificar si el producto ya está en el carrito
-  const existingProduct = req.cart.find((item) => item.id === id);
-
-  if (existingProduct) {
-    // Si el producto ya existe, actualizar la cantidad
-    existingProduct.quantity += quantity;
-
-    // También actualizar la cantidad en la lista de productos
-    product.stock -= quantity;
-  } else {
-    // Si el producto no existe, agregarlo al carrito
-    req.cart.push({ id, quantity });
-
-    // También actualizar la cantidad en la lista de productos
-    product.stock -= quantity;
-  }
-
   res.json({
-    status: "Producto agregado al carrito",
-    cart: req.cart,
+    producto,
   });
 });
-// Endpoint para eliminar un producto del carrito y devolverlo a la lista de productos
-router.delete("/:id", (req, res) => {
-  const { id } = req.params;
 
-  // Convertir el id a número
-  const productId = parseInt(id, 10);
+router.post("/", (req, res) => {
+  const { id, quantity } = req.body;
 
-  // Encontrar el índice del producto en el carrito
-  const index = req.cart.findIndex((item) => item.id === productId);
+  // Buscar el producto en el carrito
+  const cartItem = req.cart.find((item) => item.id === Number(id));
 
-  if (index === -1) {
-    return res.json({
-      error: "Producto no encontrado en el carrito",
+  // Buscar el producto en la lista de productos
+  const product = products.find((product) => product.id === Number(id));
+
+  // Verificar si el producto existe y tiene suficiente stock
+  if (!product || product.stock < quantity || product.stock < 1) {
+    return res.status(400).json({
+      error: "Producto no encontrado o sin stock disponible",
     });
   }
 
-  // Obtener el producto del carrito
-  const productInCart = req.cart[index];
+  // Restar la cantidad del stock del producto
+  product.stock -= quantity;
 
-  // Devolver la cantidad al stock en la lista de productos
-  const product = products.find((p) => p.id === productInCart.id);
-  if (product) {
-    product.stock += productInCart.quantity;
+  // Si el producto ya está en el carrito, actualizar la cantidad
+  if (cartItem) {
+    cartItem.quantity += quantity;
+  } else {
+    // Si el producto no está en el carrito, agregarlo
+    const newCartItem = {
+      id: product.id,
+      quantity,
+    };
+
+    req.cart.push(newCartItem);
   }
 
-  // Eliminar el producto del carrito
-  req.cart.splice(index, 1);
+  // Puedes guardar el estado actualizado de los productos en un archivo o base de datos
+  saveProductsToFile();
 
+  // Respuesta exitosa
   res.json({
-    status: "Producto devuelto a la lista de productos",
-    cart: req.cart,
+    status: "Producto agregado al carrito",
+    product: req.cart.find((item) => item.id === Number(id)),
   });
 });
 
-// Endpoint para obtener el contenido del carrito
-router.get("/", (req, res) => {
-  let totalQuantity = 0;
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
 
-  req.cart.forEach((item) => {
-    totalQuantity += item.quantity;
-  });
+  // Buscar el producto en la lista de productos
+  const product = products.find((user) => user.id === Number(id));
 
+  // Verificar si el producto existe
+  if (!product) {
+    return res.status(400).json({
+      error: "Producto no encontrado",
+    });
+  }
+
+  // Incrementar el stock del producto
+  product.stock++;
+
+  // Encontrar el índice del producto en el carrito
+  const cartItemIndex = req.cart.findIndex((item) => item.id === Number(id));
+
+  // Verificar si el producto está en el carrito
+  if (cartItemIndex !== -1) {
+    // Eliminar el producto del carrito
+    req.cart.splice(cartItemIndex, 1);
+  }
+
+  // Puedes guardar el estado actualizado de los productos en un archivo o base de datos
+  saveProductsToFile();
+
+  // Respuesta exitosa
   res.json({
-    totalQuantity,
-    cart: req.cart,
+    status: "Producto eliminado del carrito",
   });
 });
 
