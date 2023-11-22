@@ -21,6 +21,13 @@ router.get("/", (req, res) => {
   });
 });
 
+// Endpoint para la lista de productos con el parametro limit para limitar el numero de productos devueltos
+router.get('/limite', (req, res) => {
+    const limit = req.query.limit;
+    const productList = limit ? products.slice(0, limit) : products;
+    res.json({ products: productList });
+});
+
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   const producto = products.find((user) => user.id === Number(id));
@@ -34,10 +41,16 @@ router.get("/:id", (req, res) => {
   });
 });
 
-
-
 router.post("/", (req, res) => {
-  const { title, description, price, thumbnail, code, stock, status=true } = req.body;
+  const {
+    title,
+    description,
+    price,
+    thumbnail,
+    code,
+    stock,
+    status = true,
+  } = req.body;
   const newProduct = {
     id: products.length + 1,
     title,
@@ -58,7 +71,15 @@ router.post("/", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const { id } = req.params;
-  const { title, description, price, thumbnail, code, stock, status=true} = req.body;
+  const {
+    title,
+    description,
+    price,
+    thumbnail,
+    code,
+    stock,
+    status = true,
+  } = req.body;
   const index = products.findIndex((product) => product.id === Number(id));
 
   if (index === -1) {

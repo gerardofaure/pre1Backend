@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "title": "uuuuuuu",
+    "description": "HELADO SABORES 1 LITRO",
+    "price": 100,
+    "thumbnail": "001.jpg",
+    "code": "helado123",
+    "stock": 35,
+    "status": true
+  }
+]

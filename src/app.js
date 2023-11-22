@@ -1,4 +1,3 @@
-// PRE ENTREGA 1
 import express from "express";
 import productRouter from "./routes/products.router.js";
 import cartRouter from "./routes/cart.router.js";
